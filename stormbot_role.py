@@ -7,7 +7,7 @@ import random
 import pickle
 import collections
 
-from .bot import Plugin
+from stormbot.bot import Plugin
 
 class Volunteer:
     def __init__(self, name, role):
