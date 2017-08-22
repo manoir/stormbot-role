@@ -152,7 +152,7 @@ class VolunteerPicker(Plugin):
     def __init__(self, bot, args):
         self._bot = bot
         self.args = args
-        self._cache = Storage(self.args.volunteer_cache)
+        self._cache = Storage(self.args.role_cache)
         if "actors" not in self._cache:
             self._cache["actors"] = {}
         self.actors = self._cache["actors"]
@@ -161,14 +161,14 @@ class VolunteerPicker(Plugin):
         self.volunteers = self._cache["volunteers"]
 
         self.roles = []
-        for index, role in enumerate(args.volunteer_role):
-            self.roles.append(Role(role, args.volunteer_role_start[index], args.volunteer_role_duration[index]))
+        for index, role in enumerate(args.role):
+            self.roles.append(Role(role, args.role_start[index], args.role_duration[index]))
 
         roster = list(self._bot.plugin['xep_0045'].getRoster(self._bot.room))
         for role in self.roles:
             if role not in self.volunteers:
                 self.volunteers[role] = []
-            if self.args.volunteer_all:
+            if self.args.role_all:
                 for name in roster:
                     if name != self._bot.nick:
                         self.volunteers[role].append(Volunteer(name, role))
@@ -179,7 +179,7 @@ class VolunteerPicker(Plugin):
             self.write_volunteers(role)
 
     def got_online(self, presence):
-        if self.args.volunteer_all:
+        if self.args.role_all:
             for role in self.roles:
                 self.volunteers[role].append(Volunteer(presence['muc']['nick'], role))
 
@@ -196,11 +196,11 @@ class VolunteerPicker(Plugin):
 
     @classmethod
     def argparser(cls, parser):
-        parser.add_argument("--volunteer-all", action='store_true', default=False, help="Consider all participants as volunteers")
-        parser.add_argument("--volunteer-cache", type=str, default="/var/cache/stormbot/volunteer.p", help="Cache file (default: %(default)s)")
-        parser.add_argument("--volunteer-role", type=str, action='append')
-        parser.add_argument("--volunteer-role-start", type=isodate.parse_datetime, action='append')
-        parser.add_argument("--volunteer-role-duration", type=isodate.parse_duration, action='append')
+        parser.add_argument("--role-all", action='store_true', default=False, help="Consider all participants as volunteers")
+        parser.add_argument("--role-cache", type=str, default="/var/cache/stormbot/role.p", help="Cache file (default: %(default)s)")
+        parser.add_argument("--role", type=str, action='append')
+        parser.add_argument("--role-start", type=isodate.parse_datetime, action='append')
+        parser.add_argument("--role-duration", type=isodate.parse_duration, action='append')
 
     def role(self, rolename):
         return next((role for role in self.roles if role.name == rolename), rolename)
