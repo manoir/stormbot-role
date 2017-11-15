@@ -5,7 +5,7 @@ import isodate
 import datetime
 import random
 import pickle
-import collections
+import collections.abc
 
 from stormbot.bot import Plugin
 
@@ -69,6 +69,10 @@ class Role:
     def last_start(self):
         now = datetime.datetime.now()
         return math.floor((now - self.start) / self.duration) * self.duration + self.start
+
+    def next_start(self):
+        now = datetime.datetime.now()
+        return math.ceil((now - self.start) / self.duration) * self.duration + self.start
 
     def __str__(self):
         return self.name
@@ -173,6 +177,10 @@ class VolunteerPicker(Plugin):
                     if name != self._bot.nick:
                         self.volunteers[role].append(Volunteer(name, role))
 
+            now = datetime.datetime.now()
+            self._bot.schedule(role, (role.next_start() - now).total_seconds(),
+                               self.renew, args=(role,))
+
         random.seed()
 
         for role in self.roles:
@@ -191,6 +199,13 @@ class VolunteerPicker(Plugin):
                                               role.name))
 
     def write_actors(self, role):
+        if not role in self.actors or self.actors[role].remaining < datetime.timedelta(0):
+            if len(self.volunteers[role]) < 1:
+                self._bot.write("nobody is willing to be {}".format(role))
+                return
+
+            self.pick(random.choice(self.volunteers[role]))
+
         actor = self.actors[role]
         self._bot.write("{} is {} for {}".format(actor.name, actor.role.name, actor.remaining))
 
@@ -227,14 +242,7 @@ class VolunteerPicker(Plugin):
         subparser.add_argument("role", type=self.role, choices=self.roles)
 
     def whois(self, msg, parser, args):
-        if not args.role in self.actors or self.actors[args.role].remaining < datetime.timedelta(0):
-            if len(self.volunteers[args.role]) < 1:
-                self._bot.write("nobody is willing to be {}".format(args.role))
-                return
-
-            self.pick(random.choice(self.volunteers[args.role]))
-
-        self.write_actors(args.role)
+        write_actors(args.role)
 
     def iam(self, msg, parser, args):
         volunteer = Volunteer(msg['mucnick'], args.role)
@@ -271,3 +279,9 @@ class VolunteerPicker(Plugin):
 
     def pick(self, volunteer):
         self.actors[volunteer.role] = volunteer.appoint()
+
+    def renew(self, role):
+        self.write_actors(role)
+        now = datetime.datetime.now()
+        self._bot.schedule(role, (role.next_start() - now).total_seconds(),
+                           self.renew, args=(role,))
