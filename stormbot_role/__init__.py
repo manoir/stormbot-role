@@ -242,7 +242,7 @@ class VolunteerPicker(Plugin):
         subparser.add_argument("role", type=self.role, choices=self.roles)
 
     def whois(self, msg, parser, args):
-        write_actors(args.role)
+        self.write_actors(args.role)
 
     def iam(self, msg, parser, args):
         volunteer = Volunteer(msg['mucnick'], args.role)
