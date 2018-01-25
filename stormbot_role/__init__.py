@@ -121,6 +121,7 @@ class VolunteerPicker(Plugin):
 
         for role in self.roles:
             self.write_volunteers(role)
+            self._bot.subscribe(role.name, self)
 
     def got_online(self, presence):
         if self.args.role_all:
@@ -176,6 +177,20 @@ class VolunteerPicker(Plugin):
         subparser = parser.add_parser('icantbe', bot=self._bot)
         subparser.set_defaults(command=self.icantbe)
         subparser.add_argument("role", type=self.role, choices=self.roles)
+
+    def message(self, nick, msg):
+        target = None
+        for role in self.roles:
+            if role.name == nick:
+                target = role
+
+        if target is None:
+            return
+
+        if target not in self.actors:
+            self._bot.write("{}: nobody is volunteer for {}".format(msg['mucnick'], target))
+        else:
+            self._bot.write("{}: {}".format(self.actors[target], msg['body']))
 
     def whois(self, msg, parser, args):
         self.write_actors(args.role)
