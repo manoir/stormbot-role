@@ -10,7 +10,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='stormbot-role',
-      version='1.3.0',
+      version='1.4.0',
       description='role plugin for stormbot',
       long_description=long_description,
       author='Paul Fariello',
