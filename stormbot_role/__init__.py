@@ -178,6 +178,10 @@ class VolunteerPicker(Plugin):
         subparser.set_defaults(command=self.icantbe)
         subparser.add_argument("role", type=self.role, choices=self.roles)
 
+        subparser = parser.add_parser('sit-out', bot=self._bot)
+        subparser.set_defaults(command=self.sitout)
+        subparser.add_argument("role", type=self.role, choices=self.roles)
+
     def message(self, nick, msg):
         target = None
         for role in self.roles:
@@ -227,6 +231,21 @@ class VolunteerPicker(Plugin):
             self.write_volunteers(args.role)
         else:
             self._bot.write("{}: I know, I know, you can't be {}".format(msg['mucnick'], args.role))
+
+    def sitout(self, msg, parser, args):
+        if msg['mucnick'] != self.actors[args.role].name:
+            self._bot.write("{}: you are not {}, you dumbass!",
+                            msg['mucnick'], args.role)
+        else:
+            self._bot.write("{}: coward!", msg['mucnick'])
+            self.pick(random.choice(self.volunteers[args.role]))
+            if msg['mucnick'] == self.actors[args.role].name:
+                self._bot.write("{}: ahah fair randomness has choosen you again! https://xkcd.com/221/",
+                                self.actors[args.role])
+            else:
+                self._bot.write("{}: you are now {} thanks to {}'s cowardice",
+                                self.actors[args.role], args.role, msg['mucnick'])
+
 
     def pick(self, volunteer):
         self.actors[volunteer.role] = volunteer.appoint()
