@@ -14,16 +14,24 @@ assign those role randomly for a given duration::
     <stormbot> | master: glad to here that
     <stormbot> | master is volunteer for Scrum-Master
 
+    <michel>   | stormbot: icouldbe Scrum-Master
+    <stormbot> | master: glad to here that
+    <stormbot> | master, michel are volunteers for Scrum-Master
+
     <master>   | stormbot: iam Scrum-Master
-    <stormbot> | master: thanks !
+    <stormbot> | master: thanks!
     <stormbot> | master is Scrum-Master for 5 days, 13:32:48.239574
 
     <michel>   | Scrum-Master: could you help me?
     <stormbot> | master: Scrum-Master: could you help me ?
 
+    <master>   | stormbot: sit-out Scrum-Master
+    <stormbot> | master: coward!
+    <stormbot> | michel: you are now Scrum-Master thanks to master's cowardice
+
     <master>   | stormbot: icantbe Scrum-Master
     <stormbot> | master: sad news…
-    <stormbot> | nobody is volunteer to be Scrum-Master
+    <stormbot> | michel is volunteer to be Scrum-Master
 
 .. _Stormbot: https://pypi.org/project/stormbot
 
