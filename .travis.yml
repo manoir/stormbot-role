@@ -4,7 +4,7 @@ python:
 install:
   - pip install nose twine
 script:
-  - "./setup.py build sdist"
+  - ./setup.py build sdist
   - twine check dist/*
   - pip install .
   - nosetests
@@ -12,7 +12,7 @@ deploy:
   provider: pypi
   user: pfariello
   password:
-    secure: Pjwf9dREkcWRvqcMiOn7a8+rxXZOWPy7CYWC8ilxUGeqTkMuvusbs8EQu0kO9Brs/0308GwHJNyAdBjxN5zAlO17cZF9q25qbweb+DqgJYCgXknvBFz2ZMyE5K7vTngP+KrHlj9/8nzg+OrNYMH27MmFCQuEpCRrI++3wl5UJdEi3SSzXQYNJ1usDCuM6GFCPMEQeF8Jz49t2WCLhZutxhXUkliGOE9XM/khCJHlp4Im+hzvJmvV4Hx3ZMu9KVNKS7i153c2eYKbZQCo18p2TcKw+XwYL6WkD5aFtKRiAaqsm37thLKR57+LbwMVGnTetIKSU+PVLuqXffTHtAOxYld7qbgxW1OE4y5UNoGR1QV3wBMWFmnQoI78FagyHDrh77Rmq8LxeQ5XTi1VCCZMefaFX3HedU8bJ7+sIWiDvIXXMB31zPwSZBmAX7z1jcDeWerGCFIValVPXQy3azrBjuXdybD6QrO79kIeVM3x+6cVMzmX2Ieej1n6jz3locOMXu5zWe4Z6xJgX7w72OMTlGpORjpmodztd9ahEf+EgZIhkbP2hTmuhhnPt25NghLrBefTtLwLXHOOGYiqv5F/Fpf6UWHsoq9wHdaB7NyfrT+Z1occCmKis0PXJIDFePUaSsDZz7cW61bJ1ZFN9JmnA6Lk3UruYBdN5O2HwrpW8ZU=
+    secure: yfq8AuYEHbYMPKE+uSLTMSiG+KfMATvy9ndroO+tx41T43WZF3w18EVbY8duE70vhvQrhVGg/p4K86T3gS4/9Coo6bvNY1E0d4ES2Rw43MEGBHg7ntdqqbgiia1SFUQmxxpsspkOm9YFOhEghfU6ozPD6c8GJ1eioEojNk8fv3vr4je8WdnOqA0ZKEbiJ7bCEvj2QuQ5+o7o+A03ZCDrSqsSmz+I+lc9r+ZYeBGwc4M5MqFj+DGCvIsBv+p7H0x5bqgdh3wgp4UNNtqftLbGdPcXZ1ZSSDDN7NNlNQivwknlTGr1ozJ8MJ6ZA0eP24sqeSOIdapt52QBWPkxWcsfvGRcgkhWj6A0YMmi0QBkK1Ooueef/gP8wyYX3ZfVOWlZPW1TmOcMZBC9lQJ8ht832UAwwD1C8AGe9qAOOXvX02QWcpoYhaqN2U13A4RJqdv8V1qCgkaxzTxJ6Jry7Mm4GGObCYycBiLei1iu1cEt2g54keAV8rkzo+AZmKZxW4euFHeFz76Yo7tQUKcL0jn6XkbH2wfuWyQZr92bw3Xj7in51GiPanJq5py1dsrt8JpuFmovg/bj0yzoYaAUMEel5d1i+LyJ1PS4KmkfVei/9Yekt+RAs/aSlfOrDnEm7yBcogh4S2+XU1y63Fry/ODqwdAmWjBkd7hcowurkutkuWk=
   on:
     tags: true
     python: '3.6'
