@@ -6,6 +6,7 @@ install:
 script:
   - ./setup.py build sdist
   - twine check dist/*
+  - pip install .
   - nosetests
 deploy:
   provider: pypi
