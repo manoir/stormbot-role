@@ -196,10 +196,10 @@ class VolunteerPicker(Plugin):
         else:
             self._bot.write("{}: {}".format(self.actors[target], msg['body']))
 
-    def whois(self, msg, parser, args):
+    def whois(self, msg, parser, args, peer):
         self.write_actors(args.role)
 
-    def iam(self, msg, parser, args):
+    def iam(self, msg, parser, args, peer):
         volunteer = Volunteer(msg['mucnick'], args.role)
         if volunteer not in self.volunteers[args.role]:
             self.volunteers[args.role].append(volunteer)
@@ -211,10 +211,10 @@ class VolunteerPicker(Plugin):
         self.pick(volunteer)
         self.write_actors(args.role)
 
-    def whocouldbe(self, msg, parser, args):
+    def whocouldbe(self, msg, parser, args, peer):
         self.write_volunteers(args.role)
 
-    def icouldbe(self, msg, parser, args):
+    def icouldbe(self, msg, parser, args, peer):
         volunteer = Volunteer(msg['mucnick'], args.role)
         if volunteer not in self.volunteers[args.role]:
             self.volunteers[args.role].append(volunteer)
@@ -223,7 +223,7 @@ class VolunteerPicker(Plugin):
         else:
             self._bot.write("{}: you already volunteered for {}".format(msg['mucnick'], args.role))
 
-    def icantbe(self, msg, parser, args):
+    def icantbe(self, msg, parser, args, peer):
         volunteer = Volunteer(msg['mucnick'], args.role)
         if volunteer in self.volunteers[args.role]:
             self.volunteers[args.role].remove(volunteer)
@@ -232,7 +232,7 @@ class VolunteerPicker(Plugin):
         else:
             self._bot.write("{}: I know, I know, you can't be {}".format(msg['mucnick'], args.role))
 
-    def sitout(self, msg, parser, args):
+    def sitout(self, msg, parser, args, peer):
         if msg['mucnick'] != self.actors[args.role].name:
             self._bot.write("{}: you are not {}, you dumbass!",
                             msg['mucnick'], args.role)
